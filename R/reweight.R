@@ -1,4 +1,6 @@
-reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,bound=c(0,100),...) {
+reweight <- function(ori, mar, raw=NA, wgt=NA, unique=T, bound=c(0, 100),
+                     trace=F, tolerance=0.1, penalty=0, ...) {
+    
  # wgt is the original weights for the corresponding "ori" line
  # raw is the raw counts in survey for the corresponding "ori" line
  if (is.na(raw[1])) raw <- rep(1,dim(ori)[1])
@@ -32,7 +34,9 @@ reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,bound=c(0,100),...) {
 
   # Solve the linear system with SVD + Tikhonov regularization
   dx <- decompose(dinit$X)
-  sresult <- search.best.h(dx,dinit,...)
+  sresult <- search.best.h(dx, dinit,
+                           trace=trace, tolerance=tolerance, penalty=penalty)
+ 
   finalest <- getestimate.h(dx,dinit$Y, sresult$best.h)
   ratio <- finalest$beta +1
   ratio[ratio<bound[1]] <- bound[1]     # Cut 'ratio' to within the range set by 'bound'

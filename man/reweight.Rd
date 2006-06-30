@@ -11,14 +11,12 @@ distributions of certain variables fit more closely to those from a more
 precise source (e.g. Census Bureau's data). 
 }
 \usage{
-x <-
-reweight(ori,mar,raw=NA,wgt=NA,unique=T,bound=c(0,100),trace=F,tolerance=0.1,penalty=0)
+reweight(ori, mar, raw=NA, wgt=NA, unique=T, bound=c(0, 100),
+trace=F, tolerance=0.1, penalty=0, ...)
 
-print.reweight(x, ...)			# print out the weight ratios and their
-                                       # corresponding factor level combination
-summary.reweight(object, ...)        		# print diagnostic information
-plot.reweight(x, ...)				# plot model statistics
-
+\method{print}{reweight}(x, ...)                                       
+\method{summary}{reweight}(object, ...)  
+\method{plot}{reweight}(x, ...)	
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
