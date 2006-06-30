@@ -1,0 +1,6 @@
+export(reweight)
+S3method(plot,reweight)
+S3method(print,reweight)
+S3method(summary,reweight)
+
+
