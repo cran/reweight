@@ -1,4 +1,4 @@
-reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,...) {
+reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,bound=c(0,100),...) {
  # wgt is the original weights for the corresponding "ori" line
  # raw is the raw counts in survey for the corresponding "ori" line
  if (is.na(raw[1])) raw <- rep(1,dim(ori)[1])
@@ -35,6 +35,8 @@ reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,...) {
   sresult <- search.best.h(dx,dinit,...)
   finalest <- getestimate.h(dx,dinit$Y, sresult$best.h)
   ratio <- finalest$beta +1
+  ratio[ratio<bound[1]] <- bound[1]     # Cut 'ratio' to within the range set by 'bound'
+  ratio[ratio>bound[2]] <- bound[2] 
   newwgt <- ratio*wgt
 
   # How original sample weights fits to the marginal.                                         
@@ -64,8 +66,8 @@ reweight <- function(ori,mar,raw=NA,wgt=NA,unique=T,...) {
 }
 
 print.reweight <- function(x,...) {
-  print(data.frame(x$ori, weight.ratio=x$ratio), ...)
-}
+  cat("Usage of print(r): Use the returned object (data frame) from print(r) to cross reference the survey respondents from the factor levels and multiply the corresponding original weights by the 'weight.ratio' to get new weights.\n")
+  data.frame(x$ori, weight.ratio=x$ratio) }
 
 summary.reweight <- function(object,...) {
   o <- object		 
@@ -212,7 +214,7 @@ search.best.h <- function(dx,dinit,trace=F,tolerance=0.1,penalty=0)  {
         # get GCV function value
     # the term (1+..)^penalty penalize large number of zero weighting ratios
       (  sum((dinit$Y - dinit$X %*% est$beta) ^ 2) * (1+est$pctbeta)^penalty /
-       (length(est$beta)- est$df) )
+       (length(est$beta)- est$df)^2 )
       }
 
     #implement Golden Selection Search

@@ -57,7 +57,8 @@ the state Florida.
     2004.
     \item SF1 (Summary File 1) 2000.
   }
-  }
+}
+\seealso{\code{\link{reweight}}}
 \references{Feiming Chen (2006) \emph{A Heuristic Method for Weighting
     Survey Respondents}. JSM 2006 Proceedings.}
 \examples{

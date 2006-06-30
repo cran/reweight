@@ -12,7 +12,7 @@ precise source (e.g. Census Bureau's data).
 }
 \usage{
 x <-
-reweight(ori,mar,raw=NA,wgt=NA,unique=T,trace=F,tolerance=0.1,penalty=0)
+reweight(ori,mar,raw=NA,wgt=NA,unique=T,bound=c(0,100),trace=F,tolerance=0.1,penalty=0)
 
 print.reweight(x, ...)			# print out the weight ratios and their
                                        # corresponding factor level combination
@@ -34,6 +34,10 @@ start from 1 and count upwards as in \eqn{1,2,\ldots}.}
     matrix is already unique. If \code{FALSE}, it will be made so by
     aggregating the non-unique lines, along with \code{raw} and \code{wgt}.
     Default is \code{TRUE}.}
+  \item{bound}{a vector of two elements giving the lower and upper
+    bounds for the final weight ratios. The extreme weight ratio is
+    reset to either the lower or upper bound. Default is c(0,100).  In
+    application a more practical bound might be c(0.5,2).}
    \item{trace}{if \code{TRUE}, show the path of the golden selection
      search of best regularization parameter \eqn{r}. Default is \code{FALSE}.}
    \item{tolerance}{the percentage of the smallest eigenvalue that is to
@@ -73,11 +77,11 @@ None.
 \references{Feiming Chen (2006) \emph{A Heuristic Method for Weighting
     Survey Respondents}. JSM 2006 Proceedings.}
 \author{Feiming Chen}
-\note{In preparation.}
+%\note{}
 
 % ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{}
+\seealso{\code{\link{pumswgt}}}
 \examples{
 data(pumswgt)
 r1 <- reweight(pumswgt$ori,pumswgt$mar,pumswgt$wgt)
